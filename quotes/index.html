@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0C0F0F">
+<meta name="color-scheme" content="dark">
+<title>TCoTa Quotes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&display=block">
+<style>
+:root{--bg:#0C0F0F;--g1:#161A14;--g2:#1E2A1C;--g3:#33442B;--b1:#3A291F;--b2:#624836;--b3:#876F5C;--tx:#E0D8D0;--ok:#9DB38E;--bad:#C98F72}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:radial-gradient(120% 80% at 50% 0,var(--g1),var(--bg) 70%) var(--bg);color:var(--tx);font:400 16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent;color-scheme:dark;overflow:hidden}
+body.lock{overflow:hidden}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--b3);outline-offset:2px}
+.ms{font-family:'Material Symbols Outlined';font-weight:300;font-style:normal;font-size:24px;line-height:1;width:1em;height:1em;overflow:hidden;white-space:nowrap;display:inline-block;flex:none;letter-spacing:normal;text-transform:none;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased;user-select:none}
+
+/* Home */
+.app{height:100dvh;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 20px env(safe-area-inset-bottom)}
+header{position:relative;height:64px;display:flex;align-items:center;justify-content:center;flex:none}
+header .ib{position:absolute;right:-8px;top:10px}
+h1{font-size:1rem;font-weight:600;letter-spacing:.18em}
+#stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 4px;min-height:0}
+.ans{font-size:clamp(1.75rem,5.5vw + .5rem,3.25rem);font-weight:500;line-height:1.25;letter-spacing:-.01em;max-width:16em;text-wrap:balance;overflow-wrap:anywhere}
+.hint{font-size:clamp(1.1rem,2.5vw + .7rem,1.5rem);color:var(--b3);max-width:20em;text-wrap:balance}
+.exp{margin-top:1.25rem;font-size:clamp(1rem,1.2vw + .8rem,1.25rem);line-height:1.5;color:var(--tx);opacity:.8;max-width:26em;text-wrap:balance;overflow-wrap:anywhere}
+.by{margin-top:1.25rem;font-size:.875rem;color:var(--b3);letter-spacing:.04em}
+.exp+.by{margin-top:.875rem}
+.dock{display:flex;justify-content:center;gap:24px;padding:16px 0 28px;flex:none}
+.fab{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--b1);background:var(--g1);transition:border-color .2s,background .2s,transform .15s}
+.fab .ms{font-size:28px}
+.fab:hover{border-color:var(--b3)}
+.fab:active{transform:scale(.94)}
+.fab.rnd{background:var(--b1);border-color:var(--b2)}
+.rnd .ms{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.ib{width:44px;height:44px;border-radius:50%;border:0;background:transparent;color:var(--b3);display:grid;place-items:center;transition:color .2s,background .2s}
+.ib:hover{color:var(--tx);background:var(--g2)}
+
+/* Sheets */
+.ov{position:fixed;inset:0;z-index:10;display:flex;align-items:flex-end;justify-content:center;background:rgba(12,15,15,.72);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.ov.open{opacity:1;visibility:visible}
+.sheet{width:100%;max-width:520px;max-height:min(92dvh,860px);overflow-y:auto;overscroll-behavior:contain;background:var(--g1);border:1px solid var(--g2);border-bottom:0;border-radius:24px 24px 0 0;padding:16px 20px calc(24px + env(safe-area-inset-bottom));transform:translateY(24px);transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.ov.open .sheet{transform:none}
+@media(min-width:640px){.ov{align-items:center;padding:24px}.sheet{border-radius:20px;border-bottom:1px solid var(--g2);padding-bottom:24px}}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sh .ib{margin-right:-10px}
+h2{font-size:1.125rem;font-weight:600}
+h2 small{font-weight:400;color:var(--b3);font-size:.9em}
+.fld{margin-bottom:14px}
+label{display:block;font-size:.8125rem;color:var(--b3);margin-bottom:6px}
+input[type=text],input[type=password],textarea{width:100%;background:var(--bg);border:1px solid var(--g2);border-radius:12px;padding:12px 14px;font-size:16px;line-height:1.4;transition:border-color .2s}
+input::placeholder,textarea::placeholder{color:#5b5149}
+input:focus,textarea:focus{outline:none;border-color:var(--b2)}
+textarea{resize:vertical;display:block}
+.btn{height:48px;border-radius:24px;padding:0 20px;border:1px solid var(--g3);background:transparent;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:.8125rem;font-weight:600;letter-spacing:.08em;transition:background .2s,border-color .2s}
+.btn:hover{border-color:var(--b3)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.pri{background:var(--g3)}
+.btn.pri:hover{background:#3d5133}
+.btn.dng{border-color:var(--b1);color:#C79A7E}
+.block{width:100%}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.row .btn{flex:1 1 auto;padding:0 14px}
+.sec{margin-top:28px;padding-top:24px;border-top:1px solid var(--g2)}
+h3{font-size:1rem;font-weight:600}
+.sub{font-size:.8125rem;color:var(--b3);margin:2px 0 16px}
+.chk{display:flex;align-items:center;gap:10px;font-size:.875rem;color:var(--tx);margin:0 0 14px}
+.chk input{width:18px;height:18px;accent-color:var(--b2)}
+.status{font-size:.8125rem;margin-top:10px;overflow-wrap:anywhere}
+.status:empty{display:none}
+.status.ok{color:var(--ok)}
+.status.bad{color:var(--bad)}
+#j-text{font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:180px;white-space:pre;overflow:auto}
+
+/* Manage list */
+.list{list-style:none;padding:0}
+.it{display:flex;align-items:center;gap:2px;padding:12px 0;border-bottom:1px solid var(--g2)}
+.tx{flex:1;min-width:0;padding-right:8px}
+.c{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.m{font-size:.8125rem;color:var(--b3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.empty{color:var(--b3);text-align:center;padding:24px 0}
+#m-clear{margin-top:0}
+
+/* Toast */
+#toast{position:fixed;left:50%;bottom:calc(120px + env(safe-area-inset-bottom));transform:translate(-50%,8px);z-index:30;background:var(--g2);border:1px solid var(--g3);border-radius:20px;padding:8px 16px;font-size:.875rem;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <h1>TCoTa Quotes</h1>
+    <button class="ib" id="open-manage" aria-label="Quản lý dữ liệu"><span class="ms" aria-hidden="true">settings</span></button>
+  </header>
+  <main id="stage" aria-live="polite"></main>
+  <nav class="dock">
+    <button class="fab" id="btn-add" aria-label="Thêm câu trả lời"><span class="ms" aria-hidden="true">add</span></button>
+    <button class="fab rnd" id="btn-rnd" aria-label="Random"><span class="ms" aria-hidden="true">casino</span></button>
+    <button class="fab" id="btn-bk" aria-label="JSON Backup"><span class="ms" aria-hidden="true">backup</span></button>
+  </nav>
+</div>
+
+<!-- Quản lý dữ liệu -->
+<div class="ov" id="manage">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <div class="sh">
+      <h2 id="m-title">Quản lý dữ liệu <small>· <span id="m-count">0</span> câu</small></h2>
+      <button class="ib" data-close aria-label="Đóng"><span class="ms" aria-hidden="true">close</span></button>
+    </div>
+    <ul class="list" id="m-list"></ul>
+    <div class="sec">
+      <button class="btn dng block" id="m-clear"><span class="ms" aria-hidden="true">delete</span>XÓA TOÀN BỘ DỮ LIỆU</button>
+    </div>
+  </div>
+</div>
+
+<!-- Thêm / sửa câu trả lời + Sao lưu -->
+<div class="ov" id="add">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="add-title">
+    <div class="sh">
+      <h2 id="add-title">Thêm câu trả lời</h2>
+      <button class="ib" data-close aria-label="Đóng"><span class="ms" aria-hidden="true">close</span></button>
+    </div>
+    <div class="fld"><label for="f-content">Nội dung</label><textarea id="f-content" rows="3" maxlength="500"></textarea></div>
+    <div class="fld"><label for="f-note">Giải thích</label><textarea id="f-note" rows="2" maxlength="400" placeholder="Không bắt buộc"></textarea></div>
+    <div class="fld"><label for="f-author">Tác giả</label><input type="text" id="f-author" maxlength="80" placeholder="Không bắt buộc"></div>
+    <p class="status bad" id="f-err" role="alert"></p>
+    <button class="btn pri block" id="f-save"><span class="ms" aria-hidden="true">save</span>LƯU</button>
+
+  </div>
+</div>
+
+<!-- JSON Backup -->
+<div class="ov" id="backup">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="bk-title">
+    <div class="sh">
+      <h2 id="bk-title">JSON Backup</h2>
+      <button class="ib" data-close aria-label="Đóng"><span class="ms" aria-hidden="true">close</span></button>
+    </div>
+    <section>
+      <p class="sub">Xuất toàn bộ câu trả lời, hoặc dán JSON để khôi phục.</p>
+      <textarea id="j-text" rows="8" spellcheck="false" aria-label="JSON" placeholder='{"app":"TCoTa","version":1,"quotes":[…]}'></textarea>
+      <div class="row">
+        <button class="btn" id="b-export">XUẤT JSON</button>
+        <button class="btn" id="b-copy"><span class="ms" aria-hidden="true">content_copy</span>COPY JSON</button>
+        <button class="btn pri" id="b-restore">KHÔI PHỤC</button>
+      </div>
+      <p class="status" id="j-status" role="status"></p>
+    </section>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+
+<script>
+'use strict';
+/* ============ Helpers ============ */
+const $ = s => document.querySelector(s);
+const uid = () => crypto.randomUUID?.() || Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const HINT = 'Hãy nghĩ về điều bạn muốn biết.';
+const EMPTY = 'Kho câu trả lời đang trống. Hãy thêm một câu mới.';
+
+const SEED = [
+  'Chưa phải lúc.','Hãy tin vào trực giác của bạn.','Hãy thử một lần nữa.','Có, nhưng đừng vội.',
+  'Câu trả lời đã nằm sẵn trong bạn.','Hãy chờ thêm một chút.','Đừng sợ thay đổi.','Điều bạn tìm đang ở rất gần.',
+  'Hãy buông bớt kỳ vọng.','Làm đi — rồi bạn sẽ biết.','Không phải bây giờ, nhưng sớm thôi.','Hãy hỏi một người bạn tin tưởng.',
+  'Mọi thứ rồi sẽ ổn.','Hãy nghỉ ngơi trước khi quyết định.','Đừng so sánh mình với người khác.','Điều tốt đẹp cần thời gian.',
+  'Hãy bước đi, dù chỉ một bước nhỏ.','Có thể. Hãy chuẩn bị kỹ hơn.','Nhìn lại vấn đề từ một góc khác.','Chắc chắn là có.',
+  'Câu trả lời là không.','Hãy lắng nghe trái tim bạn.','Đừng chạy theo số đông.','Sự kiên nhẫn sẽ được đền đáp.',
+  'Một cánh cửa khác sắp mở ra.','Hãy bắt đầu từ điều đơn giản nhất.','Điều bạn lo lắng hiếm khi xảy ra.','Hãy nói ra điều bạn đang giữ trong lòng.',
+  'Buông bỏ cũng là một cách chiến thắng.','Đây là lúc hành động.','Hãy thận trọng với lời hứa vội vàng.','Bạn mạnh mẽ hơn bạn nghĩ.',
+  'Hãy để mọi thứ diễn ra tự nhiên.','Một lựa chọn tốt hơn đang chờ bạn.','Hãy cho mình thêm thời gian.','Đúng vậy.',
+  'Có lẽ không.','Đừng quyết định khi đang mệt.'
+];
+
+/* Chuẩn hóa một câu về đúng cấu trúc dữ liệu */
+function norm(q) {
+  const t = v => (v == null ? '' : String(v)).trim();
+  const d = new Date(q.createdAt);
+  return {
+    id: t(q.id) || uid(),
+    content: t(q.content),
+    note: t(q.note),
+    author: t(q.author) || 'Anonymous',
+    createdAt: isNaN(d) ? new Date().toISOString() : d.toISOString()
+  };
+}
+
+/* ============ Data / storage (localStorage) ============ */
+const Store = {
+  KEY: 'tcota.quotes.v1',
+  list: [],
+  init() {
+    try {
+      const raw = localStorage.getItem(this.KEY);
+      if (raw !== null) {
+        try {
+          const a = JSON.parse(raw);
+          if (Array.isArray(a)) {
+            this.list = a.filter(q => q && typeof q.content === 'string' && q.content.trim()).map(norm);
+            return;
+          }
+        } catch {}
+        localStorage.setItem(this.KEY + '.corrupt', raw); // giữ bản hỏng, không mất dữ liệu
+      }
+    } catch {}
+    this.list = SEED.map(content => norm({ content }));
+    this.save();
+  },
+  save() {
+    try { localStorage.setItem(this.KEY, JSON.stringify(this.list)); return true; }
+    catch { UI.toast('Không lưu được dữ liệu trên trình duyệt này.'); return false; }
+  },
+  get: id => Store.list.find(q => q.id === id),
+  add(f) { this.list.push(norm(f)); return this.save(); },
+  update(id, f) {
+    const q = this.get(id); if (!q) return false;
+    Object.assign(q, norm({ ...q, ...f }));
+    return this.save();
+  },
+  remove(id) { this.list = this.list.filter(q => q.id !== id); return this.save(); },
+  replaceAll(arr) { this.list = arr; return this.save(); }
+};
+
+/* ============ Random logic ============ */
+const Random = {
+  int: n => crypto.getRandomValues(new Uint32Array(1))[0] % n,
+  pick(list, lastId) {
+    const pool = list.length > 1 ? list.filter(q => q.id !== lastId) : list; // không lặp lại câu vừa hiện
+    return pool.length ? pool[this.int(pool.length)] : null;
+  }
+};
+
+/* ============ JSON backup / restore ============ */
+const Backup = {
+  build: () => ({ app: 'TCoTa', version: 1, exportedAt: new Date().toISOString(), quotes: Store.list }),
+  text() { return JSON.stringify(this.build(), null, 2); },
+  parse(text) { // ném lỗi rõ ràng, không chạm vào dữ liệu hiện tại
+    if (!text.trim()) throw Error('Hãy dán JSON vào ô bên trên trước.');
+    let d;
+    try { d = JSON.parse(text); } catch (e) { throw Error('JSON không hợp lệ (' + e.message + ').'); }
+    if (!d || d.app !== 'TCoTa') throw Error('Đây không phải bản sao lưu của TCoTa (thiếu "app": "TCoTa").');
+    if (!Number.isInteger(d.version) || d.version > 1) throw Error('Phiên bản sao lưu không được hỗ trợ.');
+    if (!Array.isArray(d.quotes)) throw Error('Thiếu danh sách "quotes".');
+    const seen = new Set();
+    return d.quotes.map((q, i) => {
+      if (!q || typeof q.content !== 'string' || !q.content.trim()) throw Error(`Câu số ${i + 1} thiếu "content".`);
+      const n = norm(q);
+      if (seen.has(n.id)) n.id = uid();
+      seen.add(n.id);
+      return n;
+    });
+  }
+};
+
+/* ============ UI ============ */
+const UI = {
+  current: null, editingId: null, anim: null, toastT: 0, rot: 0,
+
+  init() {
+    this.renderStage(null);
+    if (!reduced) $('#stage').animate([{ opacity: 0 }, { opacity: 1 }], { duration: 900, easing: 'ease-out' });
+
+    $('#btn-add').onclick = () => this.openAdd();
+    $('#btn-rnd').onclick = () => this.roll();
+    $('#btn-bk').onclick = () => { $('#j-status').textContent = ''; this.openSheet('backup'); };
+    $('#open-manage').onclick = () => { this.renderList(); this.openSheet('manage'); };
+    $('#f-save').onclick = () => this.onSave();
+    $('#m-list').onclick = e => this.onListClick(e);
+    $('#m-clear').onclick = () => {
+      if (Store.list.length && confirm('Xóa toàn bộ câu trả lời?\nHành động này không thể hoàn tác (hãy xuất JSON trước nếu cần).')) {
+        Store.replaceAll([]); this.renderList(); this.refreshHome(); this.toast('Đã xóa toàn bộ dữ liệu');
+      }
+    };
+
+    document.querySelectorAll('.ov').forEach(ov => {
+      ov.addEventListener('pointerdown', e => { if (e.target === ov) this.closeSheet(ov); });
+      ov.querySelectorAll('[data-close]').forEach(b => b.onclick = () => this.closeSheet(ov));
+    });
+    addEventListener('keydown', e => {
+      const open = [...document.querySelectorAll('.ov.open')].pop();
+      if (e.key === 'Escape' && open) this.closeSheet(open);
+      else if (!open && (e.key === 'Enter' || e.key === ' ') && document.activeElement === document.body) { e.preventDefault(); this.roll(); }
+    });
+
+    $('#b-export').onclick = () => {
+      $('#j-text').value = Backup.text();
+      this.copyJson(`Đã xuất ${Store.list.length} câu và sao chép vào bộ nhớ tạm.`);
+    };
+    $('#b-copy').onclick = () => this.copyJson();
+    $('#b-restore').onclick = () => this.restore();
+  },
+
+  /* --- Home --- */
+  renderStage(q, hint = HINT) {
+    const s = $('#stage'), p = document.createElement('p');
+    s.replaceChildren();
+    if (q) {
+      p.className = 'ans'; p.textContent = `“${q.content}”`; s.append(p);
+      if (q.note) { const e = document.createElement('p'); e.className = 'exp'; e.textContent = q.note; s.append(e); }
+      if (q.author && q.author !== 'Anonymous') {
+        const b = document.createElement('p'); b.className = 'by'; b.textContent = '— ' + q.author; s.append(b);
+      }
+    } else { p.className = 'hint'; p.textContent = hint; s.append(p); }
+  },
+  async show(q, hint) { // fade out → đổi nội dung → fade in
+    const s = $('#stage'), k = reduced ? 0 : 1;
+    this.anim?.cancel();
+    this.anim = s.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(-8px)' }], { duration: 240 * k || 1, fill: 'forwards' });
+    try { await this.anim.finished; } catch { return; }
+    this.current = q; this.renderStage(q, hint);
+    this.anim = s.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 520 * k || 1, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'forwards' });
+  },
+  roll() {
+    if (!reduced) $('#btn-rnd .ms').style.transform = `rotate(${this.rot += 180}deg)`;
+    const q = Random.pick(Store.list, this.current?.id);
+    this.show(q, q ? undefined : EMPTY);
+  },
+  refreshHome() { // đồng bộ màn hình chính sau khi sửa/xóa/khôi phục
+    this.current = this.current && Store.get(this.current.id) || null;
+    this.anim?.cancel(); this.renderStage(this.current);
+  },
+
+  /* --- Sheets --- */
+  openSheet(id) {
+    const o = $('#' + id); o.classList.add('open'); document.body.classList.add('lock');
+    o.querySelector('.sheet').scrollTop = 0;
+  },
+  closeSheet(o) {
+    o.classList.remove('open');
+    if (!document.querySelector('.ov.open')) document.body.classList.remove('lock');
+  },
+  openAdd(id) {
+    const q = id && Store.get(id);
+    this.editingId = q ? q.id : null;
+    $('#add-title').textContent = q ? 'Sửa câu trả lời' : 'Thêm câu trả lời';
+    $('#f-content').value = q ? q.content : '';
+    $('#f-note').value = q ? q.note : '';
+    $('#f-author').value = q && q.author !== 'Anonymous' ? q.author : '';
+    $('#f-err').textContent = '';
+    this.openSheet('add');
+    setTimeout(() => $('#f-content').focus(), 80);
+  },
+  onSave() {
+    const f = { content: $('#f-content').value, note: $('#f-note').value, author: $('#f-author').value };
+    if (!f.content.trim()) { $('#f-err').textContent = 'Vui lòng nhập nội dung.'; $('#f-content').focus(); return; }
+    const editing = this.editingId;
+    if (!(editing ? Store.update(editing, f) : Store.add(f))) return;
+    this.closeSheet($('#add'));
+    this.renderList();
+    if (editing) this.refreshHome();
+    this.toast('Đã lưu');
+  },
+
+  /* --- Quản lý dữ liệu --- */
+  renderList() {
+    const L = Store.list;
+    $('#m-count').textContent = L.length;
+    $('#m-list').innerHTML = L.length ? [...L].reverse().map(q => {
+      const meta = [q.author !== 'Anonymous' && q.author, q.note].filter(Boolean).join(' · ');
+      return `<li class="it"><div class="tx"><p class="c">${esc(q.content)}</p>${meta ? `<p class="m">${esc(meta)}</p>` : ''}</div>
+        <button class="ib" data-s="${esc(q.id)}" aria-label="Hiển thị"><span class="ms" aria-hidden="true">visibility</span></button>
+        <button class="ib" data-e="${esc(q.id)}" aria-label="Sửa"><span class="ms" aria-hidden="true">edit</span></button>
+        <button class="ib" data-d="${esc(q.id)}" aria-label="Xóa"><span class="ms" aria-hidden="true">delete</span></button></li>`;
+    }).join('') : '<li class="empty">Chưa có câu trả lời nào.</li>';
+  },
+  onListClick(e) {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.s) {
+      const q = Store.get(b.dataset.s);
+      if (q) { this.closeSheet($('#manage')); this.show(q); }
+      return;
+    }
+    if (b.dataset.e) return this.openAdd(b.dataset.e);
+    const q = Store.get(b.dataset.d);
+    if (q) {
+      Store.remove(q.id); this.renderList(); this.refreshHome(); this.toast('Đã xóa');
+    }
+  },
+
+  /* --- JSON --- */
+  async copyJson(okMsg = 'Đã sao chép JSON.') {
+    const ta = $('#j-text'), st = $('#j-status');
+    if (!ta.value.trim()) ta.value = Backup.text();
+    let ok = true;
+    try { await navigator.clipboard.writeText(ta.value); }
+    catch { ta.select(); ok = document.execCommand('copy'); }
+    this.note(st, ok ? okMsg : 'Không sao chép được, hãy chọn và copy thủ công.', ok);
+  },
+  restore() {
+    const st = $('#j-status');
+    try {
+      const arr = Backup.parse($('#j-text').value);
+      if (!confirm(`Thay thế ${Store.list.length} câu hiện tại bằng ${arr.length} câu từ bản sao lưu?`)) return;
+      const old = Store.list;
+      if (!Store.replaceAll(arr)) { Store.list = old; throw Error('Không ghi được vào bộ nhớ trình duyệt.'); }
+      this.renderList(); this.refreshHome();
+      this.note(st, `Khôi phục thành công ${arr.length} câu.`, true);
+    } catch (e) { this.note(st, 'Lỗi: ' + e.message, false); }
+  },
+
+  /* --- Feedback --- */
+  toast(msg) {
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(this.toastT); this.toastT = setTimeout(() => t.classList.remove('show'), 2400);
+  },
+  note(el, msg, ok) { el.textContent = msg; el.className = 'status ' + (ok === true ? 'ok' : ok === false ? 'bad' : ''); }
+};
+
+Store.init();
+UI.init();
+</script>
+</body>
+</html>
